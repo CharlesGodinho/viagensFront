@@ -10,7 +10,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { LoginComponent } from './components/security/login/login.component';
 import { routes } from './app.routes'
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './components/security/auth.guard';
 import { UserNewComponent } from './components/user-new/user-new.component';
@@ -30,7 +30,7 @@ import { UserListComponent } from './components/user-list/user-list.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     routes
   ],
   providers: [UserService, AuthGuard, SharedService],
