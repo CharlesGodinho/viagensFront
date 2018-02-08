@@ -10,11 +10,12 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { LoginComponent } from './components/security/login/login.component';
 import { routes } from './app.routes'
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './components/security/auth.guard';
 import { UserNewComponent } from './components/user-new/user-new.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { AuthInterceptor } from './components/security/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,15 @@ import { UserListComponent } from './components/user-list/user-list.component';
     HttpClientModule,
     routes
   ],
-  providers: [UserService, AuthGuard, SharedService],
+  providers: [
+    UserService, 
+    AuthGuard, 
+    SharedService,
+    { provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

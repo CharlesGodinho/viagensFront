@@ -1,3 +1,4 @@
+import { CurrentUser } from './../../../model/currentUser';
 import { SharedService } from './../../../services/shared.service';
 import { UserService } from './../../../services/user/user.service';
 import { User } from './../../../model/user';
@@ -22,10 +23,11 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
+  
 
   login(){
     this.message = '';
-    this.userService.login(this.user).subscribe(userAuthentication => {
+    this.userService.login(this.user).subscribe((userAuthentication:CurrentUser) => {
         this.shared.token = userAuthentication.token;
         this.shared.user = userAuthentication.user;
         this.shared.user.profile = this.shared.user.profile.substring(5);
@@ -35,8 +37,6 @@ export class LoginComponent implements OnInit {
       this.shared.token = null;
       this.shared.user = null;
       this.shared.showTemplate.emit(false);
-      console.log('err.status --> ', err.status);
-      console.log('err.statusText --> ', err.statusText);
       this.message = 'Erro ';
     });
   }

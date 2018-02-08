@@ -26,10 +26,11 @@ export class UserNewComponent implements OnInit {
 
   register(){
     this.message = '';
-    this.userService.create(this.user).subscribe(userNew => {
+    this.userService.create(this.user).subscribe((data) => {
+        console.log(data);
         this.showMessage({
           type: 'success',
-          text: `Registered user successfully ${userNew.email}`
+          text: `Registered user successfully ${data}`
         });
     } , err => {
       console.log('err --> ', err);
