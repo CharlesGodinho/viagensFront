@@ -1,3 +1,4 @@
+import { ResponseApi } from './../../model/response-api';
 import { Router } from '@angular/router';
 import { UserService } from './../../services/user/user.service';
 import { SharedService } from './../../services/shared.service';
@@ -25,20 +26,17 @@ export class UserNewComponent implements OnInit {
   }
 
   register(){
-    this.message = '';
-    this.userService.create(this.user).subscribe((data) => {
-        console.log(data);
+    this.message = {};
+    this.userService.create(this.user).subscribe((data:ResponseApi) => {
+        let userRet : User = data.data;
         this.showMessage({
           type: 'success',
-          text: `Registered user successfully ${data}`
+          text: `Registered ${userRet.email} successfully`
         });
     } , err => {
-      console.log('err --> ', err);
-      console.log('err.status --> ', err.status);
-      console.log('err.statusText --> ', err.statusText);
       this.showMessage({
         type: 'error',
-        text: 'Error '+ err.statusText
+        text: err['error']['errors'][0]
       });
     });
   }
