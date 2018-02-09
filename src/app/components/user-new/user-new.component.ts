@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { UserService } from './../../services/user/user.service';
 import { SharedService } from './../../services/shared.service';
 import { User } from './../../model/user';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-user-new',
@@ -11,6 +12,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-new.component.css']
 })
 export class UserNewComponent implements OnInit {
+
+  @ViewChild("form")
+  form: NgForm;
 
   user = new User('','','');
   shared : SharedService;
@@ -20,15 +24,16 @@ export class UserNewComponent implements OnInit {
   constructor(private userService: UserService,
     private router: Router) { 
       this.shared = SharedService.getInstance();
-    }
+  }
 
   ngOnInit() {
   }
 
   register(){
     this.message = {};
-    this.userService.create(this.user).subscribe((data:ResponseApi) => {
-        let userRet : User = data.data;
+    this.userService.create(this.user).subscribe((responseApi:ResponseApi) => {
+        let userRet : User = responseApi.data;
+        this.form.resetForm();
         this.showMessage({
           type: 'success',
           text: `Registered ${userRet.email} successfully`

@@ -16,6 +16,7 @@ import { AuthGuard } from './components/security/auth.guard';
 import { UserNewComponent } from './components/user-new/user-new.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { AuthInterceptor } from './components/security/auth.interceptor';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { AuthInterceptor } from './components/security/auth.interceptor';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    routes
+    routes,
+    NgxPaginationModule
   ],
   providers: [
     UserService, 

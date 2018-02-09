@@ -20,4 +20,8 @@ export class UserService {
   update(user: User){
     return this.http.put(`${HELP_DESK_API}/api/user`,user);
   }
+
+  findAll(page:number,count:number){
+    return this.http.get(`${HELP_DESK_API}/api/user/`+page+'/'+count);
+  }
 }
