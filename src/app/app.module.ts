@@ -1,3 +1,4 @@
+import { DialogService } from './dialog.service';
 import { SharedService } from './services/shared.service';
 import { UserService } from './services/user/user.service';
 import { RouterModule } from '@angular/router';
@@ -17,6 +18,8 @@ import { UserNewComponent } from './components/user-new/user-new.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { AuthInterceptor } from './components/security/auth.interceptor';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TicketNewComponent } from './components/ticket-new/ticket-new.component';
+import { TicketListComponent } from './components/ticket-list/ticket-list.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     HomeComponent,
     UserNewComponent,
     UserListComponent,
+    TicketNewComponent,
+    TicketListComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +45,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     UserService, 
     AuthGuard, 
     SharedService,
+    DialogService,
     { provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true

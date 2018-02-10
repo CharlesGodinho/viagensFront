@@ -4,6 +4,7 @@ import { SharedService } from './../../services/shared.service';
 import { Router } from '@angular/router';
 import { UserService } from './../../services/user/user.service';
 import { Component, OnInit } from '@angular/core';
+import { DialogService } from '../../dialog.service';
 
 @Component({
   selector: 'app-user-list',
@@ -20,7 +21,9 @@ export class UserListComponent implements OnInit {
   classCss : {};
   listUser=[];
 
-  constructor(private userService: UserService,
+  constructor(
+    private dialogService: DialogService,
+    private userService: UserService,
     private router: Router) { 
       this.shared = SharedService.getInstance();
   }
@@ -42,6 +45,30 @@ export class UserListComponent implements OnInit {
 
   }
 
+  detail(id:string){
+    this.router.navigate(['/user-new',id]);
+  }
+
+  delete(id:string){
+    this.dialogService.confirm('Do you want to delete the email ?')
+      .then((candelete:boolean) => {
+          if(candelete){
+            this.message = {};
+            this.userService.delete(id).subscribe((responseApi:ResponseApi) => {
+                this.showMessage({
+                  type: 'success',
+                  text: `Record deleted`
+                });
+                this.findAll(this.page,this.count);
+            } , err => {
+              this.showMessage({
+                type: 'error',
+                text: err['error']['errors'][0]
+              });
+            });
+          }
+      });
+  }
 
   setNextPage(event:any){
     event.preventDefault();

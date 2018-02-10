@@ -1,5 +1,5 @@
 import { ResponseApi } from './../../model/response-api';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../../services/user/user.service';
 import { SharedService } from './../../services/shared.service';
 import { User } from './../../model/user';
@@ -16,22 +16,41 @@ export class UserNewComponent implements OnInit {
   @ViewChild("form")
   form: NgForm;
 
-  user = new User('','','');
+  user = new User('','','','');
   shared : SharedService;
   message : {};
   classCss : {};
   
-  constructor(private userService: UserService,
-    private router: Router) { 
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute) { 
       this.shared = SharedService.getInstance();
   }
 
   ngOnInit() {
+    let id:string = this.route.snapshot.params['id'];
+    if(id != undefined){
+      this.findById(id);
+    }
+  }
+
+  findById(id:string){
+    this.userService.findById(id).subscribe((responseApi:ResponseApi) => {
+      this.user = responseApi.data;
+      console.log(this.user.id);
+      this.user.password = '';
+  } , err => {
+    this.showMessage({
+      type: 'error',
+      text: err['error']['errors'][0]
+    });
+  });
   }
 
   register(){
     this.message = {};
-    this.userService.create(this.user).subscribe((responseApi:ResponseApi) => {
+    this.userService.createOrUpdate(this.user).subscribe((responseApi:ResponseApi) => {
+        this.user = new User(null,'','','');
         let userRet : User = responseApi.data;
         this.form.resetForm();
         this.showMessage({

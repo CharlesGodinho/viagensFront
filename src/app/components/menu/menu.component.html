@@ -13,6 +13,18 @@
           <li><a [routerLink]="['/user-new']"><i class="fa fa-circle-o"></i> New User</a></li>
         </ul>
       </li>
+      <li class="treeview" *ngIf="shared.user.profile != 'ADMIN'">
+        <a href="#">
+          <i class="fa fa-edit"></i> <span>Ticket</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a [routerLink]="['/ticket-list']"><i class="fa fa-circle-o"></i> List</a></li>
+          <li><a [routerLink]="['/ticket-new']"><i class="fa fa-circle-o"></i> New Ticket</a></li>
+        </ul>
+      </li>
     </ul>
   </section>
 </aside>
