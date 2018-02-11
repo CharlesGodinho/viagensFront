@@ -20,6 +20,7 @@ import { AuthInterceptor } from './components/security/auth.interceptor';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TicketNewComponent } from './components/ticket-new/ticket-new.component';
 import { TicketListComponent } from './components/ticket-list/ticket-list.component';
+import { TicketService } from './services/ticket/ticket.service';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { TicketListComponent } from './components/ticket-list/ticket-list.compon
     AuthGuard, 
     SharedService,
     DialogService,
+    TicketService,
     { provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { HELP_DESK_API } from '../helpdesk.api';
-import { Ticket } from '../../model/Ticket';
+import { Ticket } from '../../model/ticket';
 
 @Injectable()
 export class TicketService {
@@ -9,10 +9,12 @@ export class TicketService {
   constructor(private http: HttpClient) {}
 
   createOrUpdate(ticket: Ticket){
+    console.log('chegou aqui', ticket);
     if(ticket.id != null && ticket.id != ''){
       return this.http.put(`${HELP_DESK_API}/api/ticket`,ticket);
     } else {
       ticket.id = null;
+      ticket.status = 'New';
       return this.http.post(`${HELP_DESK_API}/api/ticket`, ticket);
     }
   }
@@ -30,6 +32,8 @@ export class TicketService {
   }
 
   findByParams(page:number,count:number,t:Ticket){
+    console.log('valor number ',t.number);
+    t.number = ""+t.number == '' ? 0 : t.number;
     t.title = t.title == '' ? "uninformed" : t.title;
     t.status = t.status == '' ? "uninformed" : t.status;
     t.priority = t.priority == '' ? "uninformed" : t.priority;

@@ -45,7 +45,7 @@ export class UserListComponent implements OnInit {
 
   }
 
-  detail(id:string){
+  edit(id:string){
     this.router.navigate(['/user-new',id]);
   }
 

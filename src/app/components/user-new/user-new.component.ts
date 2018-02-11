@@ -37,7 +37,6 @@ export class UserNewComponent implements OnInit {
   findById(id:string){
     this.userService.findById(id).subscribe((responseApi:ResponseApi) => {
       this.user = responseApi.data;
-      console.log(this.user.id);
       this.user.password = '';
   } , err => {
     this.showMessage({
