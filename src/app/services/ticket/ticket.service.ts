@@ -9,7 +9,6 @@ export class TicketService {
   constructor(private http: HttpClient) {}
 
   createOrUpdate(ticket: Ticket){
-    console.log('chegou aqui', ticket);
     if(ticket.id != null && ticket.id != ''){
       return this.http.put(`${HELP_DESK_API}/api/ticket`,ticket);
     } else {
@@ -31,21 +30,20 @@ export class TicketService {
     return this.http.delete(`${HELP_DESK_API}/api/ticket/${id}`);
   }
 
-  findByParams(page:number,count:number,t:Ticket){
-    console.log('valor number ',t.number);
-    t.number = ""+t.number == '' ? 0 : t.number;
+  findByParams(page:number,count:number,assignedToMe:boolean,t:Ticket){
+    t.number = t.number == null ? 0 : t.number;
     t.title = t.title == '' ? "uninformed" : t.title;
     t.status = t.status == '' ? "uninformed" : t.status;
     t.priority = t.priority == '' ? "uninformed" : t.priority;
-    return this.http.get(`${HELP_DESK_API}/api/ticket/${page}/${count}/${t.number}/${t.title}/${t.status}/${t.priority}`);
+    return this.http.get(`${HELP_DESK_API}/api/ticket/${page}/${count}/${t.number}/${t.title}/${t.status}/${t.priority}/${assignedToMe}`);
   }
 
-  changeStatus(status:string,description:string,ticket:Ticket){
-    return this.http.put(`${HELP_DESK_API}/api/ticket/${ticket.id}/${status}/${description}`,ticket);
+  changeStatus(status:string,ticket:Ticket){
+    return this.http.put(`${HELP_DESK_API}/api/ticket/${ticket.id}/${status}`,ticket);
   }
 
-  chart(){
-    return this.http.get(`${HELP_DESK_API}/api/ticket/chart`);
+  summary(){
+    return this.http.get(`${HELP_DESK_API}/api/ticket/summary`);
   }
 
 }

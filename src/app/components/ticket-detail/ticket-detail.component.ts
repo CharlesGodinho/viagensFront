@@ -7,11 +7,11 @@ import { TicketService } from './../../services/ticket/ticket.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-ticket-new',
-  templateUrl: './ticket-new.component.html',
-  styleUrls: ['./ticket-new.component.css']
+  selector: 'app-ticket-detail',
+  templateUrl: './ticket-detail.component.html',
+  styleUrls: ['./ticket-detail.component.css']
 })
-export class TicketNewComponent implements OnInit {
+export class TicketDetailComponent implements OnInit {
 
   @ViewChild("form")
   form: NgForm;
@@ -35,8 +35,11 @@ export class TicketNewComponent implements OnInit {
   }
 
   findById(id:string){
+    console.log('id --> ',id);
     this.ticketService.findById(id).subscribe((responseApi:ResponseApi) => {
+      console.log('responseApi -->  ',responseApi);
       this.ticket = responseApi.data;
+      this.ticket.date = new Date(this.ticket.date).toISOString();
   } , err => {
     this.showMessage({
       type: 'error',
@@ -102,4 +105,20 @@ export class TicketNewComponent implements OnInit {
     }
   }
 
+  changeStatus(status:string): void{
+    this.ticketService.changeStatus(status,this.ticket).subscribe((responseApi:ResponseApi) => {
+        this.ticket = responseApi.data;
+        this.ticket.date = new Date(this.ticket.date).toISOString();
+        this.showMessage({
+          type: 'success',
+          text: 'Successfully changed status'
+        });
+    } , err => {
+      this.showMessage({
+        type: 'error',
+        text: err['error']['errors'][0]
+      });
+    });
+  }
 }
+

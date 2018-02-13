@@ -21,6 +21,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { TicketNewComponent } from './components/ticket-new/ticket-new.component';
 import { TicketListComponent } from './components/ticket-list/ticket-list.component';
 import { TicketService } from './services/ticket/ticket.service';
+import { TicketDetailComponent } from './components/ticket-detail/ticket-detail.component';
+import { SummaryComponent } from './components/summary/summary.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { TicketService } from './services/ticket/ticket.service';
     UserListComponent,
     TicketNewComponent,
     TicketListComponent,
+    TicketDetailComponent,
+    SummaryComponent,
   ],
   imports: [
     BrowserModule,

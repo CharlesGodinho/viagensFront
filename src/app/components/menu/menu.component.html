@@ -25,6 +25,17 @@
           <li *ngIf="shared.user.profile == 'CUSTOMER'"><a [routerLink]="['/ticket-new']"><i class="fa fa-circle-o"></i> New Ticket</a></li>
         </ul>
       </li>
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>Summary</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a [routerLink]="['/summary']"><i class="fa fa-circle-o"></i>To view </a></li>
+          </ul>
+        </li>
     </ul>
   </section>
 </aside>

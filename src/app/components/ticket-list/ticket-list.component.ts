@@ -1,4 +1,4 @@
-import { Ticket } from './../../model/Ticket';
+import { Ticket } from './../../model/ticket';
 import { ResponseApi } from './../../model/response-api';
 import { SharedService } from './../../services/shared.service';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { TicketService } from '../../services/ticket/ticket.service';
 })
 export class TicketListComponent implements OnInit {
 
+  assignedToMe: boolean = false;
   page:number=0;
   count:number=5;
   pages:Array<number>;
@@ -20,7 +21,7 @@ export class TicketListComponent implements OnInit {
   message : {};
   classCss : {};
   listTicket=[];
-  ticketFilter = new Ticket('',0,'','','','',null);
+  ticketFilter = new Ticket('',null,'','','','',null,null,'',null);
 
   constructor(
     private dialogService: DialogService,
@@ -46,10 +47,13 @@ export class TicketListComponent implements OnInit {
   }
 
   filter(): void {
+    console.log(' this.assignedToMe --> ',this.assignedToMe);
     this.page = 0;
     this.count = 5;
-    this.ticketService.findByParams(this.page,this.count,this.ticketFilter).subscribe((responseApi:ResponseApi) => {
-      this.ticketFilter.title = this.ticketFilter.title == 'uninformed' ? "" : this.ticketFilter.title;  
+    this.ticketService.findByParams(this.page,this.count,this.assignedToMe,this.ticketFilter)
+    .subscribe((responseApi:ResponseApi) => {
+      this.ticketFilter.title = this.ticketFilter.title == 'uninformed' ? "" : this.ticketFilter.title;
+      this.ticketFilter.number = this.ticketFilter.number == 0 ? null : this.ticketFilter.number;  
       this.listTicket = responseApi['data']['content'];
         this.pages = new Array(responseApi['data']['totalPages']);
     } , err => {
@@ -61,15 +65,20 @@ export class TicketListComponent implements OnInit {
   }
 
   cleanFilter(): void {
+    this.assignedToMe = false;
     this.page = 0;
     this.count = 5;
-    this.ticketFilter = new Ticket('',0,'','','','',null);
+    this.ticketFilter = new Ticket('',null,'','','','',null,null,'',null);
     this.findAll(this.page,this.count);
   }
 
 
   edit(id:string){
     this.router.navigate(['/ticket-new',id]);
+  }
+
+  detail(id:string){
+    this.router.navigate(['/ticket-detail',id]);
   }
 
   delete(id:string){
