@@ -1,7 +1,8 @@
 import { ResponseApi } from './../../model/response-api';
 import { Summary } from './../../model/summary';
 import { Component, OnInit } from '@angular/core';
-import { TicketService } from '../../services/ticket/ticket.service';
+import { PassengersService } from '../../services/passengers/passengers.service';
+import { TravelService } from '../../services/travel/travel.service';
 
 @Component({
   selector: 'app-summary',
@@ -15,11 +16,12 @@ export class SummaryComponent implements OnInit {
   classCss : {};
 
   constructor(
-    private ticketService: TicketService,
+    private travelService: TravelService,
+    private passengersService: PassengersService,
   ) { }
 
   ngOnInit() {
-    this.ticketService.summary().subscribe((responseApi:ResponseApi) => {
+    this.travelService.summary().subscribe((responseApi:ResponseApi) => {
         this.summary = responseApi.data;
     } , err => {
       this.showMessage({

@@ -1,7 +1,7 @@
 <div class="col-md-6" style="margin-left:0%">
   <div class="box box-info">
     <div class="box-header with-border">
-      <h3 class="box-title">New Ticket</h3>
+      <h3 class="box-title">New Travel</h3>
     </div>
     <form class="form-horizontal" #form="ngForm" (ngSubmit)="register()" novalidate>
       <div [ngClass]="classCss" role="alert" *ngIf="message">
@@ -12,7 +12,7 @@
           <label for="inputTitle" class="col-sm-2 control-label">Title</label>
           <div class="col-sm-10">
             <input type="text" 
-                    [(ngModel)]="ticket.title"
+                    [(ngModel)]="travel.title"
                     name="title" 
                     class="form-control" 
                     id="inputTitle" 
@@ -25,7 +25,7 @@
         <div [ngClass]="getFormGroupClass(priority.invalid,priority.dirty)">
           <label for="inputPriority" class="col-sm-2 control-label">Priority</label>
           <div class="col-sm-10">
-            <select [(ngModel)]="ticket.priority" 
+            <select [(ngModel)]="travel.priority" 
                 class="form-control select2" 
                 name="priority"
                 id="inputPriority"
@@ -42,7 +42,7 @@
         <div [ngClass]="getFormGroupClass(description.invalid,description.dirty)">
           <label for="inputDescription" class="col-sm-2 control-label">Description</label>
           <div class="col-sm-10">
-            <textarea [(ngModel)]="ticket.description"
+            <textarea [(ngModel)]="travel.description"
                     name="description" 
                     rows="3"
                     class="form-control" 
@@ -57,7 +57,7 @@
         <div class="form-group">
           <label for="inputDescription" class="col-sm-2 control-label">Image</label>
           <div class="col-sm-10">
-            <img [src]="ticket.image" width="50%" height="50%"> 
+            <img [src]="travel.image" width="50%" height="50%"> 
             <input type="file" id="image"  (change)="onFileChange($event)">
           </div>
         </div>        

@@ -1,6 +1,6 @@
 import { User } from './user';
 
-export class Ticket {
+export class Travel {
     constructor(
         public id: string,
         public number: number,
@@ -14,7 +14,7 @@ export class Ticket {
         public changes: Array<string>
     ) {}
 
-    public equals(obj: Ticket) : boolean { 
+    public equals(obj: Travel) : boolean { 
         return this.number === obj.number;
     } 
 

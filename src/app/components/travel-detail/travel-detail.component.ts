@@ -1,28 +1,28 @@
-import { ResponseApi } from './../../model/response-api';
+import { ResponseApi } from '../../model/response-api';
 import { ActivatedRoute } from '@angular/router';
-import { Ticket } from './../../model/ticket';
-import { SharedService } from './../../services/shared.service';
+import { Travel } from './../../model/Travel';
+import { SharedService } from '../../services/shared.service';
 import { NgForm } from '@angular/forms';
-import { TicketService } from './../../services/ticket/ticket.service';
+import { TravelService } from '../../services/travel/travel.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-ticket-new',
-  templateUrl: './ticket-new.component.html',
-  styleUrls: ['./ticket-new.component.css']
+  selector: 'app-travel-detail',
+  templateUrl: './travel-detail.component.html',
+  styleUrls: ['./travel-detail.component.css']
 })
-export class TicketNewComponent implements OnInit {
+export class TravelDetailComponent implements OnInit {
 
   @ViewChild("form")
   form: NgForm;
 
-  ticket = new Ticket('',0,'','','','',null,null,'',null);
+  travel = new Travel('',0,'','','','',null,null,'',null);
   shared : SharedService;
   message : {};
   classCss : {};
 
   constructor(
-    private ticketService: TicketService,
+    private travelService: TravelService,
     private route: ActivatedRoute) { 
       this.shared = SharedService.getInstance();
   }
@@ -35,8 +35,11 @@ export class TicketNewComponent implements OnInit {
   }
 
   findById(id:string){
-    this.ticketService.findById(id).subscribe((responseApi:ResponseApi) => {
-      this.ticket = responseApi.data;
+    console.log('id --> ',id);
+    this.travelService.findById(id).subscribe((responseApi:ResponseApi) => {
+      console.log('responseApi -->  ',responseApi);
+      this.travel = responseApi.data;
+      this.travel.date = new Date(this.travel.date).toISOString();
   } , err => {
     this.showMessage({
       type: 'error',
@@ -47,13 +50,13 @@ export class TicketNewComponent implements OnInit {
 
   register(){
     this.message = {};
-    this.ticketService.createOrUpdate(this.ticket).subscribe((responseApi:ResponseApi) => {
-        this.ticket = new Ticket('',0,'','','','',null,null,'',null);
-        let ticket : Ticket = responseApi.data;
+    this.travelService.createOrUpdate(this.travel).subscribe((responseApi:ResponseApi) => {
+        this.travel = new Travel('',0,'','','','',null,null,'',null);
+        let travel : Travel = responseApi.data;
         this.form.resetForm();
         this.showMessage({
           type: 'success',
-          text: `Registered ${ticket.title} successfully`
+          text: `Registered ${travel.title} successfully`
         });
     } , err => {
       this.showMessage({
@@ -93,13 +96,29 @@ export class TicketNewComponent implements OnInit {
         text: 'Maximum image size is 2 MB'
       });
     } else {
-      this.ticket.image = '';
+      this.travel.image = '';
       var reader = new FileReader();
       reader.onloadend = (e: Event) => {
-          this.ticket.image = reader.result;
+          this.travel.image = reader.result;
       }
       reader.readAsDataURL(event.target.files[0]);
     }
   }
 
+  changeStatus(status:string): void{
+    this.travelService.changeStatus(status,this.travel).subscribe((responseApi:ResponseApi) => {
+        this.travel = responseApi.data;
+        this.travel.date = new Date(this.travel.date).toISOString();
+        this.showMessage({
+          type: 'success',
+          text: 'Successfully changed status'
+        });
+    } , err => {
+      this.showMessage({
+        type: 'error',
+        text: err['error']['errors'][0]
+      });
+    });
+  }
 }
+

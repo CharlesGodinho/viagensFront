@@ -18,10 +18,13 @@ import { UserNewComponent } from './components/user-new/user-new.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { AuthInterceptor } from './components/security/auth.interceptor';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { TicketNewComponent } from './components/ticket-new/ticket-new.component';
-import { TicketListComponent } from './components/ticket-list/ticket-list.component';
-import { TicketService } from './services/ticket/ticket.service';
-import { TicketDetailComponent } from './components/ticket-detail/ticket-detail.component';
+import { TravelNewComponent } from './components/travel-new/travel-new.component';
+import { TravelListComponent } from './components/travel-list/travel-list.component';
+import { TravelService } from "./services/travel/TravelService";
+import { TravelDetailComponent } from './components/travel-detail/travel-detail.component';
+import { PassengersNewComponent } from './components/passengers-new/passengers-new.component';
+// import { PassengersListComponent } from './components/passengers-list/passengers-list.component';
+import { PassengersService } from "./services/passengers/PassengersService";
 import { SummaryComponent } from './components/summary/summary.component';
 
 @NgModule({
@@ -34,9 +37,10 @@ import { SummaryComponent } from './components/summary/summary.component';
     HomeComponent,
     UserNewComponent,
     UserListComponent,
-    TicketNewComponent,
-    TicketListComponent,
-    TicketDetailComponent,
+    TravelNewComponent,
+    TravelListComponent,
+    PassengersNewComponent,
+    TravelDetailComponent,
     SummaryComponent,
   ],
   imports: [
@@ -51,7 +55,8 @@ import { SummaryComponent } from './components/summary/summary.component';
     AuthGuard, 
     SharedService,
     DialogService,
-    TicketService,
+    TravelService,
+    PassengersService,
     { provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true

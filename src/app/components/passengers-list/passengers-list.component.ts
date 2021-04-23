@@ -1,17 +1,17 @@
-import { Ticket } from './../../model/ticket';
-import { ResponseApi } from './../../model/response-api';
-import { SharedService } from './../../services/shared.service';
+import { Passengers } from '../../model/Passengers';
+import { ResponseApi } from '../../model/response-api';
+import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../dialog.service';
-import { TicketService } from '../../services/ticket/ticket.service';
+import { PassengersService } from "../../services/passengers/PassengersService";
 
 @Component({
-  selector: 'app-ticket-list',
-  templateUrl: './ticket-list.component.html',
-  styleUrls: ['./ticket-list.component.css']
+  selector: 'app-passengers-list',
+  templateUrl: './passengers-list.component.html',
+  styleUrls: ['./passengers-list.component.css']
 })
-export class TicketListComponent implements OnInit {
+export class PassengersListComponent implements OnInit {
 
   assignedToMe: boolean = false;
   page:number=0;
@@ -20,12 +20,12 @@ export class TicketListComponent implements OnInit {
   shared : SharedService;
   message : {};
   classCss : {};
-  listTicket=[];
-  ticketFilter = new Ticket('',null,'','','','',null,null,'',null);
+  listPassengers=[];
+  passengersFilter = new Passengers('','','','','','','','','','','','','','','','','','');
 
   constructor(
     private dialogService: DialogService,
-    private ticketService: TicketService,
+    private passengersService: PassengersService,
     private router: Router) { 
       this.shared = SharedService.getInstance();
   }
@@ -35,8 +35,8 @@ export class TicketListComponent implements OnInit {
   }
 
   findAll(page:number,count:number){
-    this.ticketService.findAll(page,count).subscribe((responseApi:ResponseApi) => {
-        this.listTicket = responseApi['data']['content'];
+    this.passengersService.findAll(page,count).subscribe((responseApi:ResponseApi) => {
+        this.listPassengers = responseApi['data']['content'];
         this.pages = new Array(responseApi['data']['totalPages']);
     } , err => {
       this.showMessage({
@@ -50,11 +50,10 @@ export class TicketListComponent implements OnInit {
     console.log(' this.assignedToMe --> ',this.assignedToMe);
     this.page = 0;
     this.count = 5;
-    this.ticketService.findByParams(this.page,this.count,this.assignedToMe,this.ticketFilter)
+    this.passengersService.findByParams(this.page,this.count,this.assignedToMe,this.passengersFilter)
     .subscribe((responseApi:ResponseApi) => {
-      this.ticketFilter.title = this.ticketFilter.title == 'uninformed' ? "" : this.ticketFilter.title;
-      this.ticketFilter.number = this.ticketFilter.number == 0 ? null : this.ticketFilter.number;  
-      this.listTicket = responseApi['data']['content'];
+      this.passengersFilter.title = this.passengersFilter.title == 'uninformed' ? "" : this.passengersFilter.title;
+      this.listPassengers = responseApi['data']['content'];
         this.pages = new Array(responseApi['data']['totalPages']);
     } , err => {
       this.showMessage({
@@ -68,25 +67,25 @@ export class TicketListComponent implements OnInit {
     this.assignedToMe = false;
     this.page = 0;
     this.count = 5;
-    this.ticketFilter = new Ticket('',null,'','','','',null,null,'',null);
+    this.passengersFilter = new Passengers('','','','','','','','','','','','','','','','','','');
     this.findAll(this.page,this.count);
   }
 
 
   edit(id:string){
-    this.router.navigate(['/ticket-new',id]);
+    this.router.navigate(['/passengers-new',id]);
   }
 
   detail(id:string){
-    this.router.navigate(['/ticket-detail',id]);
+    this.router.navigate(['/passengers-detail',id]);
   }
 
   delete(id:string){
-    this.dialogService.confirm('Do you want to delete the ticket ?')
+    this.dialogService.confirm('Do you want to delete the passengers ?')
       .then((candelete:boolean) => {
           if(candelete){
             this.message = {};
-            this.ticketService.delete(id).subscribe((responseApi:ResponseApi) => {
+            this.passengersService.delete(id).subscribe((responseApi:ResponseApi) => {
                 this.showMessage({
                   type: 'success',
                   text: `Record deleted`
